@@ -17,22 +17,25 @@ public class StudentController {
             public void actionPerformed(ActionEvent e) {
                 int studentIdFinal;
                 String firstName = view.getFirstName();
-                String lastName = view.lastName();
+                String lastName = view.getlastName();
+                String email = view.getEmail();
                 String studentID = view.getStudentId();
 
-                if(firstName.isBlank() || lastName.isBlank() || studentID.isBlank()){
+                if(firstName.isBlank() || lastName.isBlank() || studentID.isBlank() || email.isBlank()){
+                    view.alertError("ALL FIELDS ARE REQUIRED!");
                     return;
                 }
 
                 try{
                    studentIdFinal = Integer.parseInt(studentID);
                 } catch (Exception ex) {
+                    view.alertError("Student ID must be a valid number!");
                     return;
                 }
-                Student student = new Student(firstName, lastName, studentIdFinal);
+                Student student = new Student(firstName, lastName,studentIdFinal, email);
 
                 view.addStudentToList(student.toString());
-                model.addStudent(new Student(firstName, lastName, studentIdFinal));
+                model.addStudent(new Student(firstName, lastName,studentIdFinal, email));
                 view.clearForm();
             }
         });
