@@ -52,7 +52,7 @@ public class StudentGUI extends JFrame{
         return inputFirstName.getText();
     }
 
-    public String getlastName() {
+    public String getLastName() {
         return inputLastName.getText();
     }
     public String getStudentId(){
@@ -61,8 +61,14 @@ public class StudentGUI extends JFrame{
     public String getEmail(){
         return inputEmail.getText();
     }
+
     public int getSelectedIndex() {
         return studentList.getSelectedIndex();
+    }
+    public int getSelectedIndexId() {
+        String s = studentList.getSelectedValue();
+        String idString = s.substring(s.indexOf('(')+1, s.indexOf(')'));
+        return Integer.parseInt(idString);
     }
 
     // listeners

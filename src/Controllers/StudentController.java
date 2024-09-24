@@ -6,18 +6,28 @@ import Views.StudentGUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class StudentController {
     private StudentModel model;
     private StudentGUI view;
 
+
+
     public StudentController(StudentModel model, StudentGUI view){
+        this.model = model;
+        this.view = view;
+
+        ArrayList<Student> students = model.getStudents();
+
+        students.forEach(s -> view.addStudentToList(students.toString()));
+
         view.attachAddStudentListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int studentIdFinal;
                 String firstName = view.getFirstName();
-                String lastName = view.getlastName();
+                String lastName = view.getLastName();
                 String email = view.getEmail();
                 String studentID = view.getStudentId();
 
@@ -33,7 +43,10 @@ public class StudentController {
                     return;
                 }
                 Student student = new Student(firstName, lastName,studentIdFinal, email);
-
+                if (!model.addStudent(student)) {
+                    view.alertError("Unable to add record");
+                    return;
+                }
                 view.addStudentToList(student.toString());
                 model.addStudent(new Student(firstName, lastName,studentIdFinal, email));
                 view.clearForm();
@@ -43,10 +56,10 @@ public class StudentController {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int index = view.getSelectedIndex();
-
+                int studentId = view.getSelectedIndexId();
                 if(index > -1) {
-                model.removeStudent(index);
-                view.removeStudentToList(index);
+                    model.removeStudent(studentId);
+                    view.removeStudentToList(index);
                 }
             }
         });
